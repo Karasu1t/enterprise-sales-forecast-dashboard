@@ -43,7 +43,7 @@ This project is a full-stack sales forecasting platform for enterprise applicati
 
 This architecture was chosen to demonstrate practical, production-ready skills for international data engineering and machine learning projects. The design emphasizes:
 
-- **Simplicity and Maintainability:** By keeping ETL minimal and leveraging managed services (Cloud Functions, Cloud Run, Dataform), the pipeline remains easy to operate and scale, reducing operational overhead.
+- **Simplicity and Maintainability:** By keeping ETL minimal and leveraging managed services (Cloud Functions, Dataform), the pipeline remains easy to operate and scale, reducing operational overhead.
 - **Cloud-Native Best Practices:** All components are serverless or managed, following modern cloud-native patterns that are highly valued in global projects.
 - **Reproducibility and Transparency:** The entire workflow, from data ingestion to model serving, is automated and version-controlled, making it easy for others to understand, reproduce, and audit.
 - **Realistic Business Scenarios:** The data and features (seasonality, promotions, etc.) are designed to reflect real-world sales forecasting challenges, showing practical problem-solving ability.
@@ -62,7 +62,7 @@ Many enterprises struggle to bridge the gap between raw data and actionable busi
 - **Data Management**
 
   - Store daily sales data in Google Cloud Storage.
-  - Use Cloud Functions / Cloud Run for light preprocessing (missing value imputation, format conversion, simple aggregations).
+  - Use Cloud Functions for light preprocessing (missing value imputation, format conversion, simple aggregations).
   - BigQuery stores raw and processed data; Dataform manages transformations and dependencies for VertexAI-ready datasets.
 
 - **Model Training & Prediction**
@@ -84,7 +84,7 @@ Many enterprises struggle to bridge the gap between raw data and actionable busi
 
 ## Infrastructure as Code (IaC)
 
-All Google Cloud resources (GCS, BigQuery, Cloud Run, VertexAI, etc.) are provisioned and managed using Terraform. This ensures reproducibility, scalability, and easy collaboration for infrastructure management. The Terraform code is organized in the `terraform/` directory, following best practices for modularity and environment separation.
+All Google Cloud resources (GCS, BigQuery, Cloud Functions, VertexAI, etc.) are provisioned and managed using Terraform. This ensures reproducibility, scalability, and easy collaboration for infrastructure management. The Terraform code is organized in the `terraform/` directory, following best practices for modularity and environment separation.
 
 **Key Points:**
 
@@ -98,7 +98,7 @@ GitHub Actions is used to automate the build, test, and deployment process for a
 
 - Linting and testing on every pull request
 - Building and pushing Docker images to Artifact Registry
-- Deploying to Cloud Run upon merge to main branch
+- Deploying to Cloud Functions upon merge to main branch (if applicable)
 - (Optional) Infrastructure changes via Terraform plan/apply workflows
 
 The CI/CD configuration is located in the `.github/workflows/` directory.
@@ -106,7 +106,7 @@ The CI/CD configuration is located in the `.github/workflows/` directory.
 ## Technical Stack
 
 - Storage & Database: Google Cloud Storage, BigQuery
-- ETL & Transformation: Cloud Functions / Cloud Run, Dataform
+- ETL & Transformation: Cloud Functions, Dataform
 - Machine Learning: VertexAI
 - Web Interface: Streamlit
 - Infrastructure as Code: Terraform

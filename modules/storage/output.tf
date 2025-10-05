@@ -1,3 +1,8 @@
-# output "bucket" {
-#   value = google_storage_bucket.dataflow.name
-# }
+
+output "salesdata" {
+  value = google_storage_bucket.salesdata.name
+}
+
+output "import_script" {
+  value = google_storage_bucket.import_script.name
+}
