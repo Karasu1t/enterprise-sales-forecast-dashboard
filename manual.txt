@@ -2,7 +2,7 @@
 ◆Uploding Test Data to GCS
 cd /work/enterprise-sales-forecast-dashboard/data/origin
 gsutil -m cp * gs://dev-karasuit-salesdata/
-gsutil -m cp XXXX-XX-XX.csv gs://dev-karasuit-salesdata/
+gsutil -m cp 2024-01-01.csv gs://dev-karasuit-salesdata/
 
 ◆Uploding Script to GCS
 cd /work/enterprise-sales-forecast-dashboard/src

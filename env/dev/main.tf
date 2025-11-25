@@ -27,7 +27,6 @@ module "function" {
   dataset        = module.bq.dataset
   source_bucket  = module.storage.import_script
   trigger_bucket = module.storage.salesdata
-  script         = "function.zip"
 }
 
 # # Artifact Registry

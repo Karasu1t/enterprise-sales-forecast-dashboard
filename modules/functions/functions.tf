@@ -5,7 +5,7 @@ resource "google_cloudfunctions_function" "etl_function" {
   region                = var.gcp_region
   project               = var.project
   source_archive_bucket = var.source_bucket
-  source_archive_object = var.script
+  source_archive_object = google_storage_bucket_object.function_zip.name
   available_memory_mb   = 512
   environment_variables = {
     DATASET  = var.dataset
@@ -16,9 +16,23 @@ resource "google_cloudfunctions_function" "etl_function" {
   event_trigger {
     event_type = "google.storage.object.finalize"
     resource   = var.trigger_bucket
-    # optional: object name prefix filter (e.g. "raw_data/")
+    # Optional: object name prefix filter (e.g. "raw_data/")
     # failure_policy { retry = true }
   }
+
+  depends_on = [google_storage_bucket_object.function_zip]
+}
+
+data "archive_file" "function_source" {
+  type        = "zip"
+  source_dir  = "${path.module}/../../src"
+  output_path = "${path.module}/function.zip"
+}
+
+resource "google_storage_bucket_object" "function_zip" {
+  name   = "function.zip"
+  bucket = var.source_bucket
+  source = data.archive_file.function_source.output_path
 }
 
 resource "google_cloudfunctions_function_iam_member" "invoker" {

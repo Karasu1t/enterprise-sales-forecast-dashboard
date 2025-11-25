@@ -22,10 +22,6 @@ variable "trigger_bucket" {
   type = string
 }
 
-variable "script" {
-  type = string
-}
-
 variable "dataset" {
   type = string
 }
