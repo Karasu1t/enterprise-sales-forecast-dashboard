@@ -1,11 +1,10 @@
-# Enterprise-Level Sales Prediction Dashboard Using VertexAI
+# Enterprise Sales Forecasting Platform (GCP/VertexAI)
+
+A fully self-designed, production-grade sales forecasting pipeline—built from scratch, cloud-native, and ready for real-world business.
+
+---
 
 ## Architecture
-
-Below are two representations of the system architecture:
-
-- **Mermaid Diagram:** Text-based, editable architecture diagram for quick reference and version control.
-- **PNG Diagram:** Visually detailed architecture diagram exported from draw.io for presentations and documentation.
 
 ```mermaid
 flowchart LR
@@ -35,48 +34,56 @@ flowchart LR
 
 ![Architecture Diagram (PNG)](img/Architecture.drawio.png)
 
-## Overview
+---
 
-This project is a full-stack sales forecasting platform for enterprise applications. It predicts future sales based on daily collected data and visualizes the results through an interactive web interface. Minimal ETL processes maintain a clean and reliable data pipeline.
+## Project Highlights
 
-## Design Rationale
+- **End-to-End Ownership:** All design, implementation, and automation done by myself—no templates, no copy-paste.
+- **Modern Cloud Stack:** GCP (BigQuery, GCS, Cloud Functions, Dataform, VertexAI), Terraform, Python, Streamlit.
+- **Business-Driven:** Handles real-world sales data, seasonality, promotions, and delivers actionable forecasts.
+- **Scalable & Maintainable:** Modular, serverless, and easy to extend for new data sources or ML models.
+- **DevOps Ready:** Infrastructure as Code, GitOps, and reproducible pipelines.
 
-This architecture was chosen to demonstrate practical, production-ready skills for international data engineering and machine learning projects. The design emphasizes:
+---
 
-- **Simplicity and Maintainability:** By keeping ETL minimal and leveraging managed services (Cloud Functions, Dataform), the pipeline remains easy to operate and scale, reducing operational overhead.
-- **Cloud-Native Best Practices:** All components are serverless or managed, following modern cloud-native patterns that are highly valued in global projects.
-- **Reproducibility and Transparency:** The entire workflow, from data ingestion to model serving, is automated and version-controlled, making it easy for others to understand, reproduce, and audit.
-- **Realistic Business Scenarios:** The data and features (seasonality, promotions, etc.) are designed to reflect real-world sales forecasting challenges, showing practical problem-solving ability.
-- **End-to-End Ownership:** The project covers the full lifecycle (data, ML, UI), proving the ability to deliver complete solutions independently—a key requirement for international freelance and remote work.
+## Why This Project Stands Out
 
-## Problem Solved
+- **Designed for Global Teams:** All code, infra, and ML pipelines are documented and versioned for easy handover and collaboration.
+- **Practical Problem Solving:** Focused on real business needs—data quality, automation, and user experience.
+- **Self-Driven Engineering:** Every architectural decision, from ETL to UI, is based on my own research and hands-on experience.
 
-Many enterprises struggle to bridge the gap between raw data and actionable business insights. This project solves that by providing:
+---
 
-- An automated, reliable pipeline from data collection to prediction delivery
-- A user-friendly interface for business users to access forecasts and monitor data/model freshness
-- A scalable, cloud-native foundation that can be adapted to various industries and data volumes
+## Quick Overview
 
-## Features
+- **Upload** daily sales data to GCS.
+- **Cloud Functions** trigger ETL and load to BigQuery.
+- **Dataform** manages data modeling and dependencies.
+- **VertexAI** trains and serves ML models.
+- **Streamlit UI** provides interactive forecasts for business users.
 
-- **Data Management**
+---
 
-  - Store daily sales data in Google Cloud Storage.
-  - Use Cloud Functions for light preprocessing (missing value imputation, format conversion, simple aggregations).
-  - BigQuery stores raw and processed data; Dataform manages transformations and dependencies for VertexAI-ready datasets.
+## Tech Stack
 
-- **Model Training & Prediction**
+- Google Cloud Platform (BigQuery, GCS, Cloud Functions, Dataform, VertexAI)
+- Terraform (IaC)
+- Python (ETL, ML)
+- Streamlit (Web UI)
 
-  - VertexAI trains models on processed BigQuery data.
-  - Models are periodically retrained for accuracy.
-  - Predictions are available online through an interactive web interface.
+---
 
-- **Web Interface**
+## Author
 
-  - Built with Streamlit for easy deployment.
-  - Users select date ranges, store IDs, and product categories to generate predictions.
-  - Results displayed in tables and charts for comparison with historical data.
-  - Model update dates and data refresh dates are displayed for a “internal tool” feel.
+**雅 (Miyabi)**  
+Freelance Cloud/Data Engineer
+
+- Designed, built, and documented every part of this project myself.
+- Always open to global collaboration and new challenges.
+
+---
+
+_For more details, see the code and diagrams above. Feel free to reach out for technical deep-dives or collaboration!_
 
 - **Operational Insights**
   - Cloud Logging and basic monitoring for ETL and model operations.
