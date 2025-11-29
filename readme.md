@@ -1,89 +1,40 @@
-# Enterprise Sales Forecasting Platform (GCP/VertexAI)
+# Production-ready ML pipeline with fully automated training & deployment
 
-A fully self-designed, production-grade sales forecasting pipeline—built from scratch, cloud-native, and ready for real-world business.
+---
+
+## What is this project?
+
+Fully automated, production-grade ML pipeline on GCP:
+
+- Infrastructure as Code with Terraform
+- CI/CD with GitHub Actions
+- Vertex AI Custom Training for sales forecasting
+- Cloud Run for API deployment
+
+> Reproducible, scalable, and business-oriented ML pipeline for real-world use.
 
 ---
 
 ## Architecture
 
-```mermaid
-flowchart LR
-  A[GCS Upload]
-  B[Cloud Function]
-  C[Dataform ETL]
-  D[BigQuery]
-  E[Scheduler]
-  F[VertexAI Train]
-  G[Prediction API]
-  H[Streamlit UI]
-  I[User Input]
-  J[Predict Req]
-  K[Result Display]
-
-  A -->|Upload| B
-  B -->|Trigger| C
-  C -->|ETL| D
-  D -->|Train Data| F
-  E -->|Schedule| F
-  F -->|Deploy| G
-  H --> I
-  I -->|Input| J
-  J -->|Request| G
-  G -->|Result| K
-```
+GCP (Google Cloud Platform) × Vertex AI × Cloud Run × BigQuery × Terraform × GitHub Actions
 
 ![Architecture Diagram (PNG)](img/Architecture.drawio.png)
 
 ---
 
-## Project Highlights
+## Features
 
-- **End-to-End Ownership:** All design, implementation, and automation done by myself—no templates, no copy-paste.
-- **Modern Cloud Stack:** GCP (BigQuery, GCS, Cloud Functions, Dataform, VertexAI), Terraform, Python, Streamlit.
-- **Business-Driven:** Handles real-world sales data, seasonality, promotions, and delivers actionable forecasts.
-- **Scalable & Maintainable:** Modular, serverless, and easy to extend for new data sources or ML models.
-- **DevOps Ready:** Infrastructure as Code, GitOps, and reproducible pipelines.
-
----
-
-## Why This Project Stands Out
-
-- **Designed for Global Teams:** All code, infra, and ML pipelines are documented and versioned for easy handover and collaboration.
-- **Practical Problem Solving:** Focused on real business needs—data quality, automation, and user experience.
-- **Self-Driven Engineering:** Every architectural decision, from ETL to UI, is based on my own research and hands-on experience.
+- All infrastructure managed by Terraform (IaC)
+- GitHub Actions triggers training, model registration, and deployment
+- Vertex AI custom training with hyperparameter management
+- Cloud Run API for real-time predictions
 
 ---
 
-## Quick Overview
-
-- **Upload** daily sales data to GCS.
-- **Cloud Functions** trigger ETL and load to BigQuery.
-- **Dataform** manages data modeling and dependencies.
-- **VertexAI** trains and serves ML models.
-- **Streamlit UI** provides interactive forecasts for business users.
+## Architecture
 
 ---
-
-## Tech Stack
-
-- Google Cloud Platform (BigQuery, GCS, Cloud Functions, Dataform, VertexAI)
-- Terraform (IaC)
-- Python (ETL, ML)
-- Streamlit (Web UI)
-
----
-
-## Author
-
-**雅 (Miyabi)**  
-Freelance Cloud/Data Engineer
-
-- Designed, built, and documented every part of this project myself.
-- Always open to global collaboration and new challenges.
-
----
-
-_For more details, see the code and diagrams above. Feel free to reach out for technical deep-dives or collaboration!_
 
 - **Operational Insights**
   - Cloud Logging and basic monitoring for ETL and model operations.
