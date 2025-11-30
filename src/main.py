@@ -25,6 +25,7 @@ def etl_handler(data, context):
         "商品価格": "price",
         "売上": "sales",
         "天気": "weather",
+        "祝日フラグ": "holiday_flag",
     }
     df.rename(columns=col_map, inplace=True)
 

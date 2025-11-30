@@ -23,6 +23,14 @@ GCP (Google Cloud Platform) × Vertex AI × Cloud Run × BigQuery × Terraform �
 
 ---
 
+
+## Sales Trend Example
+
+Below is an example of the sales trend used in this project:
+
+![Sales Trend Graph](img/graph.png)
+
+---
 ## Features
 
 - All infrastructure managed by Terraform (IaC)
