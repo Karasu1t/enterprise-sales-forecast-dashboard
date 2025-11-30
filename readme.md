@@ -23,14 +23,25 @@ GCP (Google Cloud Platform) × Vertex AI × Cloud Run × BigQuery × Terraform �
 
 ---
 
+## Model Evaluation and Realistic Validation
 
-## Sales Trend Example
+To ensure the reliability of the sales forecasting model, both random split and time-series-aware validation were performed:
+
+- **Random split (with future data leakage):**
+  - R² = 0.72, RMSE = 6.86
+  - Shows high accuracy, but may overestimate real-world performance due to data leakage.
+- **TimeSeriesSplit (no future data leakage, realistic scenario):**
+  - Average R² = 0.44, Average RMSE = 9.25
+  - Provides a more honest and practical estimate of model performance for real business use.
+
+This project emphasizes realistic validation and honest reporting of model accuracy, reflecting best practices for production ML systems.
 
 Below is an example of the sales trend used in this project:
 
 ![Sales Trend Graph](img/graph.png)
 
 ---
+
 ## Features
 
 - All infrastructure managed by Terraform (IaC)

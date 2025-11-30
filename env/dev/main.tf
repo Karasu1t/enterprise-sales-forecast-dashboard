@@ -29,13 +29,13 @@ module "function" {
   trigger_bucket = module.storage.salesdata
 }
 
-# # Artifact Registry
-# module "artifactregistry" {
-#   source      = "../../modules/artifactregistry"
-#   project     = local.project
-#   environment = local.environment
-#   gcp_region  = local.gcp_region
-# }
+# Artifact Registry
+module "artifactregistry" {
+  source        = "../../modules/artifact_registry"
+  project       = local.project
+  location      = local.gcp_region
+  repository_id = "sales-data-prediction-model-repo"
+}
 
 # Dataform
 # Note:
