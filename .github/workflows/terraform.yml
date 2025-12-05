@@ -13,6 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+      TF_VAR_id: ${{ secrets.ID }}
+      TF_VAR_project: ${{ secrets.PROJECT }}
+      TF_VAR_environment: ${{ secrets.ENVIRONMENT }}
+      TF_VAR_gcp_region: ${{ secrets.GCP_REGION }}
+      TF_VAR_gcp_zone: ${{ secrets.GCP_ZONE }}
+      TF_VAR_email: ${{ secrets.EMAIL }}
+      TF_VAR_email_mas: ${{ secrets.EMAIL_MAS }}
     defaults:
       run:
         working-directory: env/dev
