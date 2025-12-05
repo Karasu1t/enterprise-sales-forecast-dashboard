@@ -6,7 +6,6 @@
 
 # Secret & sensitive files
 terraform.tfvars
-env/dev/local.tf
 *.json
 !sample*.json
 *.pem
