@@ -12,6 +12,8 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
     env:
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+      GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
       TF_VAR_credentials: ${{ secrets.GCP_SA_KEY }}
       TF_VAR_id: ${{ secrets.ID }}
       TF_VAR_project: ${{ secrets.PROJECT }}
