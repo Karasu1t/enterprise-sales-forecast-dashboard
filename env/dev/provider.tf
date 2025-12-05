@@ -8,9 +8,8 @@ terraform {
 }
 
 provider "google" {
-  # Configuration options
-  project     = local.project
-  region      = local.gcp_region
-  zone        = local.gcp_zone
-  credentials = "/work/GCP/keys.json"
+  project     = var.project
+  region      = var.gcp_region
+  zone        = var.gcp_zone
+  credentials = var.credentials != null ? var.credentials : null
 }

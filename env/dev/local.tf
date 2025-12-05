@@ -1,3 +1,4 @@
+variable "credentials" {}
 variable "id" {}
 variable "project" {}
 variable "environment" {}
