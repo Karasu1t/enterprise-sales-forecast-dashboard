@@ -27,7 +27,10 @@ jobs:
 
       - name: Configure Docker for Artifact Registry
         run: |
-          gcloud auth configure-docker asia-northeast1-docker.pkg.dev
+          gcloud auth configure-docker --quiet
+
+      - name: Who am I?
+        run: gcloud auth list
 
       - name: Build Docker image
         run: |
