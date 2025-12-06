@@ -19,8 +19,8 @@ resource "google_bigquery_table" "sales_raw" {
   dataset_id = google_bigquery_dataset.dataset.dataset_id
   table_id   = "sales_raw"
   schema = jsonencode([
-    { name = "date", type = "DATE", mode = "REQUIRED" },
-    { name = "product_name", type = "STRING", mode = "REQUIRED" },
+    { name = "date", type = "DATE", mode = "NULLABLE" },
+    { name = "product_name", type = "STRING", mode = "NULLABLE" },
     { name = "quantity", type = "INT64", mode = "NULLABLE" },
     { name = "price", type = "INT64", mode = "NULLABLE" },
     { name = "sales", type = "INT64", mode = "NULLABLE" },
