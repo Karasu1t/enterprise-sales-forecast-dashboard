@@ -34,7 +34,7 @@ module "artifactregistry" {
   source        = "../../modules/artifact_registry"
   project       = var.project
   location      = var.gcp_region
-  repository_id = "sales-data-prediction-model-repo"
+  repository_id = "sales-data-learning-model-repo"
 }
 
 # Dataform
