@@ -47,3 +47,27 @@ resource "google_storage_bucket" "import_script" {
     }
   }
 }
+
+resource "google_storage_bucket" "put_learning_model" {
+  name          = "${var.environment}-${var.id}-put-learning-model"
+  location      = "ASIA-NORTHEAST1"
+  force_destroy = true
+
+  lifecycle_rule {
+    condition {
+      age = 2
+    }
+    action {
+      type = "Delete"
+    }
+  }
+
+  lifecycle_rule {
+    condition {
+      age = 1
+    }
+    action {
+      type = "AbortIncompleteMultipartUpload"
+    }
+  }
+}
