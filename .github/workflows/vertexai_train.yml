@@ -7,6 +7,8 @@ jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
     env:
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+      GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       GCP_REGION: ${{ secrets.GCP_REGION }}
       ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
@@ -44,6 +46,8 @@ jobs:
     needs: build-and-push-image
     runs-on: ubuntu-latest
     env:
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+      GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       GCP_REGION: ${{ secrets.GCP_REGION }}
       ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
