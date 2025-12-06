@@ -11,68 +11,28 @@ jobs:
       GCP_REGION: ${{ secrets.GCP_REGION }}
       ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
       IMAGE_NAME: vertexai-train
-      GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
 
     defaults:
       run:
         working-directory: vertexai/learning
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          export_default_credentials: true
+      - name: Auth (explicit)
+        run: |
+          echo "${{ secrets.GCP_SA_KEY }}" > /tmp/key.json
+          gcloud auth activate-service-account --key-file=/tmp/key.json --project="${{ secrets.GCP_PROJECT_ID }}"
+          gcloud auth list
 
       - name: Configure Docker for Artifact Registry
         run: |
-          gcloud auth configure-docker $GCP_REGION-docker.pkg.dev --quiet
+          gcloud auth configure-docker asia-northeast1-docker.pkg.dev --quiet
 
-      - name: Who am I?
-        run: gcloud auth list
-
-      - name: Build Docker image
+      - name: Build image
         run: |
           docker build -t $ARTIFACT_REGISTRY/$IMAGE_NAME:latest .
 
-      - name: Push Docker image to Artifact Registry
+      - name: Push
         run: |
           docker push $ARTIFACT_REGISTRY/$IMAGE_NAME:latest
-
-  vertexai-custom-job:
-    needs: build-and-push-image
-    runs-on: ubuntu-latest
-    env:
-      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-      GCP_REGION: ${{ secrets.GCP_REGION }}
-      ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
-      IMAGE_NAME: vertexai-train
-      BQ_TABLE: ${{ secrets.BQ_TABLE }}
-      MODEL_PATH: ${{ secrets.MODEL_PATH }}
-      GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
-
-    defaults:
-      run:
-        working-directory: vertexai/learning
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          export_default_credentials: true
-
-      - name: Run VertexAI Custom Job
-        run: |
-          gcloud ai custom-jobs create \
-            --region=$GCP_REGION \
-            --display-name=vertexai-train-job \
-            --worker-pool-spec=machine-type=n1-standard-4,container-image-uri=$ARTIFACT_REGISTRY/$IMAGE_NAME:latest,command=python,args=["train.py","--bq_table=$BQ_TABLE","--project_id=$GCP_PROJECT_ID","--model_path=$MODEL_PATH"]
