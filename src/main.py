@@ -35,6 +35,7 @@ def etl_handler(data, context):
     df["price"] = df["price"].astype("Int64")
     df["sales"] = df["sales"].astype("Int64")
     df["weather"] = df["weather"].astype(str)
+    df["holiday_flag"] = df["holiday_flag"].astype("Int64")
 
     # Load only new records to BigQuery (partitioned table)
     bq_client = bigquery.Client()
@@ -76,6 +77,7 @@ def etl_handler(data, context):
                 bigquery.SchemaField("price", "INT64"),
                 bigquery.SchemaField("sales", "INT64"),
                 bigquery.SchemaField("weather", "STRING"),
+                bigquery.SchemaField("holiday_flag", "INT64"),
             ],
             time_partitioning=bigquery.TimePartitioning(
                 type_=bigquery.TimePartitioningType.DAY, field="date"
