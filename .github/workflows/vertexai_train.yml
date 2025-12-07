@@ -17,24 +17,24 @@ jobs:
         working-directory: vertexai/learning
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          export_default_credentials: true
+      - name: Auth (explicit)
+        run: |
+          echo "${{ secrets.GCP_SA_KEY_B64 }}" | base64 -d > /tmp/key.json
+          gcloud auth activate-service-account --key-file=/tmp/key.json --project="${{ secrets.GCP_PROJECT_ID }}"
 
-      - name: Build Docker image
+      - name: Configure Docker for Artifact Registry
+        run: |
+          gcloud auth configure-docker asia-northeast1-docker.pkg.dev --quiet
+
+      - name: Build image
         run: |
           docker build -t $ARTIFACT_REGISTRY/$IMAGE_NAME:latest .
 
-      - name: Push Docker image to Artifact Registry
+      - name: Push
         run: |
           docker push $ARTIFACT_REGISTRY/$IMAGE_NAME:latest
-
   vertexai-custom-job:
     needs: build-and-push-image
     runs-on: ubuntu-latest
@@ -45,22 +45,14 @@ jobs:
       IMAGE_NAME: vertexai-train
       BQ_TABLE: ${{ secrets.BQ_TABLE }}
       MODEL_PATH: ${{ secrets.MODEL_PATH }}
-
-    defaults:
-      run:
-        working-directory: vertexai/learning
-
     steps:
-      - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          export_default_credentials: true
-
-      - name: Run VertexAI Custom Job (gcloud)
+      - name: Auth (explicit)
+        run: |
+          echo "${{ secrets.GCP_SA_KEY_B64 }}" | base64 -d >  /tmp/key.json
+          gcloud auth activate-service-account --key-file=/tmp/key.json --project="${{ secrets.GCP_PROJECT_ID }}"
+      - name: Run VertexAI Custom Job
         run: |
           gcloud ai custom-jobs create \
             --region=$GCP_REGION \
             --display-name=vertexai-train-job \
-            --worker-pool-spec=machine-type=n1-standard-4,container-image-uri=$ARTIFACT_REGISTRY/$IMAGE_NAME:latest,command=python,args=["train.py","--bq_table=$BQ_TABLE","--project_id=$GCP_PROJECT_ID","--model_path=$MODEL_PATH"]
+            --worker-pool-spec=machine-type=n1-standard-4,container-image-uri=$ARTIFACT_REGISTRY/$IMAGE_NAME:latest,command=python,args=["train.py","--bq_table=$BQ_TABLE","--model_path=$MODEL_PATH"]
