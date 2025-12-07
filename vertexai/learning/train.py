@@ -10,7 +10,7 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import TimeSeriesSplit
-from sklearn.metrics import root_mean_squared_error, r2_score
+from sklearn.metrics import mean_squared_error, r2_score
 import argparse
 import joblib
 import os
@@ -86,7 +86,7 @@ for train_idx, test_idx in ts_cv.split(X):
     model = RandomForestRegressor(random_state=42)
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
-    rmse_list.append(root_mean_squared_error(y_test, y_pred))
+    rmse_list.append(mean_squared_error(y_test, y_pred, squared=False))
     r2_list.append(r2_score(y_test, y_pred))
 
 # print(f"Average RMSE: {sum(rmse_list)/len(rmse_list):.2f}")
