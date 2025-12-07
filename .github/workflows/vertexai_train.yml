@@ -48,10 +48,6 @@ jobs:
       BQ_TABLE: ${{ secrets.BQ_TABLE }}
       MODEL_PATH: ${{ secrets.MODEL_PATH }}
 
-    defaults:
-      run:
-        working-directory: enterprise-sales-forecast-dashboard/vertexai/learning
-
     steps:
       - name: Auth (explicit)
         run: |
