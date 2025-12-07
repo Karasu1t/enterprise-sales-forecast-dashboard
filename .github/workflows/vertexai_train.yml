@@ -17,7 +17,8 @@ jobs:
         working-directory: vertexai/learning
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Auth (explicit)
         run: |
@@ -28,13 +29,14 @@ jobs:
         run: |
           gcloud auth configure-docker asia-northeast1-docker.pkg.dev --quiet
 
-      - name: Build image
+      - name: Build Docker image
         run: |
           docker build -t $ARTIFACT_REGISTRY/$IMAGE_NAME:latest .
 
-      - name: Push
+      - name: Push Docker image to Artifact Registry
         run: |
           docker push $ARTIFACT_REGISTRY/$IMAGE_NAME:latest
+
   vertexai-custom-job:
     needs: build-and-push-image
     runs-on: ubuntu-latest
@@ -45,6 +47,11 @@ jobs:
       IMAGE_NAME: vertexai-train
       BQ_TABLE: ${{ secrets.BQ_TABLE }}
       MODEL_PATH: ${{ secrets.MODEL_PATH }}
+
+    defaults:
+      run:
+        working-directory: vertexai/learning
+
     steps:
       - name: Auth (explicit)
         run: |
@@ -55,4 +62,6 @@ jobs:
           gcloud ai custom-jobs create \
             --region=$GCP_REGION \
             --display-name=vertexai-train-job \
-            --worker-pool-spec=machine-type=n1-standard-4,replica-count=1,container-image-uri=$ARTIFACT_REGISTRY/$IMAGE_NAME:latest,container-command=python,container-args='["train.py","--bq_table='$BQ_TABLE'","--model_path='$MODEL_PATH'"]'
+            --worker-pool-spec=machine-type=n1-standard-4,replica-count=1,container-image-uri=$ARTIFACT_REGISTRY/$IMAGE_NAME:latest \
+            --command=python \
+            --args=train.py,--bq_table=$BQ_TABLE,--model_path=$MODEL_PATH
