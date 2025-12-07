@@ -1,0 +1,49 @@
+name: VertexAI Model Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  upload-and-deploy-model:
+    runs-on: ubuntu-latest
+    env:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_REGION: ${{ secrets.GCP_REGION }}
+      MODEL_DISPLAY_NAME: ${{ secrets.MODEL_DISPLAY_NAME }}
+      ENDPOINT_DISPLAY_NAME: ${{ secrets.ENDPOINT_DISPLAY_NAME }}
+      MODEL_PATH: ${{ secrets.MODEL_PATH }}
+      ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
+    steps:
+      - name: Auth (explicit)
+        run: |
+          echo "${{ secrets.GCP_SA_KEY_B64 }}" | base64 -d > /tmp/key.json
+          gcloud auth activate-service-account --key-file=/tmp/key.json --project="${{ secrets.GCP_PROJECT_ID }}"
+
+      - name: Upload model to VertexAI
+        id: upload_model
+        run: |
+          gcloud ai models upload \
+            --region=$GCP_REGION \
+            --display-name=$MODEL_DISPLAY_NAME \
+            --container-image-uri=us-docker.pkg.dev/vertex-ai/prediction/sklearn-cpu.1-2:latest \
+            --artifact-uri=$MODEL_PATH > upload_output.txt
+          MODEL_ID=$(grep 'name:' upload_output.txt | awk -F/ '{print $NF}')
+          echo "MODEL_ID=$MODEL_ID" >> $GITHUB_ENV
+
+      - name: Create endpoint (if not exists)
+        id: create_endpoint
+        run: |
+          ENDPOINT_ID=$(gcloud ai endpoints list --region=$GCP_REGION --filter="displayName=$ENDPOINT_DISPLAY_NAME" --format="value(name)" | awk -F/ '{print $NF}')
+          if [ -z "$ENDPOINT_ID" ]; then
+            gcloud ai endpoints create --region=$GCP_REGION --display-name=$ENDPOINT_DISPLAY_NAME > endpoint_output.txt
+            ENDPOINT_ID=$(grep 'name:' endpoint_output.txt | awk -F/ '{print $NF}')
+          fi
+          echo "ENDPOINT_ID=$ENDPOINT_ID" >> $GITHUB_ENV
+
+      - name: Deploy model to endpoint
+        run: |
+          gcloud ai endpoints deploy-model $ENDPOINT_ID \
+            --region=$GCP_REGION \
+            --model=$MODEL_ID \
+            --display-name=$MODEL_DISPLAY_NAME \
+            --machine-type=n1-standard-4
