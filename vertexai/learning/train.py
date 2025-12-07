@@ -57,7 +57,7 @@ df["year"] = df["date"].dt.year
 df["month"] = df["date"].dt.month
 df["day"] = df["date"].dt.day
 
-# Feature list: required (year, month, day, is_XXXX) + optional (if present: price, sales, weather, holiday_flag, weather_flag)
+# Feature list: required (year, month, day, is_XXXX) + optional (if present: price, sales, holiday_flag, weather_flag)
 feature_cols = [
     "year",
     "month",
@@ -66,7 +66,7 @@ feature_cols = [
     "is_pet_bottle_tea",
     "is_chocolate",
 ]
-optional_cols = ["price", "sales", "weather", "holiday_flag", "weather_flag"]
+optional_cols = ["price", "sales", "holiday_flag", "weather_flag"]
 for col in optional_cols:
     if col in df.columns:
         feature_cols.append(col)
