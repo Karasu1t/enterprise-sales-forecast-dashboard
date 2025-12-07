@@ -13,6 +13,8 @@ from sklearn.model_selection import TimeSeriesSplit
 from sklearn.metrics import root_mean_squared_error, r2_score
 import argparse
 import joblib
+import os
+from google.cloud import storage
 
 # Set data path and output path via command-line arguments
 parser = argparse.ArgumentParser()
@@ -72,5 +74,19 @@ for train_idx, test_idx in ts_cv.split(X):
 # print(f"Average R2: {sum(r2_list)/len(r2_list):.2f}")
 
 # Save the model trained on the last fold
-joblib.dump(model, args.model_path)
-# print(f"Model saved to {args.model_path}")
+local_model_path = "model.joblib"
+joblib.dump(model, local_model_path)
+print(f"Model saved locally to {local_model_path}")
+
+if args.model_path.startswith("gs://"):
+    print(f"Uploading model to GCS: {args.model_path}")
+    bucket_name = args.model_path.replace("gs://", "").split("/")[0]
+    blob_name = "/".join(args.model_path.replace("gs://", "").split("/")[1:])
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(blob_name)
+    blob.upload_from_filename(local_model_path)
+    print(f"Model uploaded to GCS: {args.model_path}")
+else:
+    joblib.dump(model, args.model_path)
+    print(f"Model saved to {args.model_path}")
