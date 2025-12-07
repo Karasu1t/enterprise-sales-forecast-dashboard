@@ -39,6 +39,7 @@ jobs:
             ENDPOINT_ID=$(grep 'name:' endpoint_output.txt | awk -F/ '{print $NF}')
           fi
           echo "ENDPOINT_ID=$ENDPOINT_ID" >> $GITHUB_ENV
+          echo "[DEBUG] ENDPOINT_ID=$ENDPOINT_ID"
 
       - name: Deploy model to endpoint
         run: |
