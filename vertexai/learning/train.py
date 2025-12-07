@@ -33,7 +33,11 @@ if args.bq_table:
     print(f"Loading data from BigQuery table: {args.bq_table}")
     if not args.project_id:
         raise ValueError("--project_id is required when using --bq_table")
-    df = pd.read_gbq(f"SELECT * FROM `{args.bq_table}`", project_id=args.project_id)
+    df = pd.read_gbq(
+        f"SELECT * FROM `{args.bq_table}`",
+        project_id=args.project_id,
+        location="asia-northeast1",
+    )
 else:
     print(f"Loading data from {args.data_path}")
     df = pd.read_csv(args.data_path, encoding="utf-8")
