@@ -11,7 +11,7 @@ jobs:
       GCP_REGION: ${{ secrets.GCP_REGION }}
       MODEL_DISPLAY_NAME: ${{ secrets.MODEL_DISPLAY_NAME }}
       ENDPOINT_DISPLAY_NAME: ${{ secrets.ENDPOINT_DISPLAY_NAME }}
-      MODEL_PATH: ${{ secrets.MODEL_PATH }}
+      MODEL_PATH: "gs://dev-karasuit-put-learning-model"
       ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
     steps:
       - name: Auth (explicit)
