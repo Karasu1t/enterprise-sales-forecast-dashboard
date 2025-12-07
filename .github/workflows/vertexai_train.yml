@@ -50,7 +50,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: vertexai/learning
+        working-directory: enterprise-sales-forecast-dashboard/vertexai/learning
 
     steps:
       - name: Auth (explicit)

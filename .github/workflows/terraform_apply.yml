@@ -2,11 +2,11 @@ name: Terraform Apply
 
 on:
   push:
+    paths:
+      - "modules/**"
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   terraform:
