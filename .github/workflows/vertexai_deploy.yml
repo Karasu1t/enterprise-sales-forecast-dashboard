@@ -29,7 +29,6 @@ jobs:
             --artifact-uri=$MODEL_PATH
           MODEL_ID=$(gcloud ai models list --region=$GCP_REGION --filter="displayName=$MODEL_DISPLAY_NAME" --format="value(name)" | head -n 1 | awk -F/ '{print $NF}')
           echo "MODEL_ID=$MODEL_ID" >> $GITHUB_ENV
-          echo "[DEBUG] MODEL_ID=$MODEL_ID"
 
       - name: Create endpoint (if not exists)
         id: create_endpoint

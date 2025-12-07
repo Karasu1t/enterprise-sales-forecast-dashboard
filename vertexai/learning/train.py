@@ -15,6 +15,7 @@ import argparse
 import joblib
 import os
 from google.cloud import storage
+import numpy as np
 
 # Set data path and output path via command-line arguments
 parser = argparse.ArgumentParser()
@@ -30,6 +31,7 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
+
 # Load data
 if args.bq_table:
     print(f"Loading data from BigQuery table: {args.bq_table}")
@@ -44,16 +46,25 @@ else:
     print(f"Loading data from {args.data_path}")
     df = pd.read_csv(args.data_path, encoding="utf-8")
 
-df = df.drop(
-    columns=[
-        col
-        for col in ["product_name", "weather", "price", "sales"]
-        if col in df.columns
-    ]
-)
+# 必須特徴量: date, is_cup_ramen, is_pet_bottle_tea, is_chocolate
+for col in ["is_cup_ramen", "is_pet_bottle_tea", "is_chocolate"]:
+    if col not in df.columns:
+        raise ValueError(f"{col} column is required in the data.")
+
+# dateをdatetime型に変換し、月・曜日を特徴量化
+df["date"] = pd.to_datetime(df["date"])
+df["month"] = df["date"].dt.month
+df["weekday"] = df["date"].dt.weekday
+
+# 特徴量リスト: 必須(date→month, weekday, is_XXXX) + 任意（存在すればprice, sales, weather, holiday_flag, weather_flag）
+feature_cols = ["month", "weekday", "is_cup_ramen", "is_pet_bottle_tea", "is_chocolate"]
+optional_cols = ["price", "sales", "weather", "holiday_flag", "weather_flag"]
+for col in optional_cols:
+    if col in df.columns:
+        feature_cols.append(col)
+
 
 # Define features and target
-feature_cols = [col for col in df.columns if col not in ["quantity", "date"]]
 X = df[feature_cols]
 y = df["quantity"]
 
