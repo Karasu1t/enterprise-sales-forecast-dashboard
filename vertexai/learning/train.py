@@ -46,18 +46,26 @@ else:
     print(f"Loading data from {args.data_path}")
     df = pd.read_csv(args.data_path, encoding="utf-8")
 
-# 必須特徴量: date, is_cup_ramen, is_pet_bottle_tea, is_chocolate
+# Required features: date→year, month, day, is_cup_ramen, is_pet_bottle_tea, is_chocolate
 for col in ["is_cup_ramen", "is_pet_bottle_tea", "is_chocolate"]:
     if col not in df.columns:
         raise ValueError(f"{col} column is required in the data.")
 
-# dateをdatetime型に変換し、月・曜日を特徴量化
+# Convert date to datetime and extract year, month, day as features
 df["date"] = pd.to_datetime(df["date"])
+df["year"] = df["date"].dt.year
 df["month"] = df["date"].dt.month
-df["weekday"] = df["date"].dt.weekday
+df["day"] = df["date"].dt.day
 
-# 特徴量リスト: 必須(date→month, weekday, is_XXXX) + 任意（存在すればprice, sales, weather, holiday_flag, weather_flag）
-feature_cols = ["month", "weekday", "is_cup_ramen", "is_pet_bottle_tea", "is_chocolate"]
+# Feature list: required (year, month, day, is_XXXX) + optional (if present: price, sales, weather, holiday_flag, weather_flag)
+feature_cols = [
+    "year",
+    "month",
+    "day",
+    "is_cup_ramen",
+    "is_pet_bottle_tea",
+    "is_chocolate",
+]
 optional_cols = ["price", "sales", "weather", "holiday_flag", "weather_flag"]
 for col in optional_cols:
     if col in df.columns:
