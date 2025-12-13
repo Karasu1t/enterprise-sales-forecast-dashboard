@@ -1,113 +1,140 @@
-## Dashboard Image Samples
+# Enterprise Sales Forecasting Dashboard
 
-### Dashboard UI Example (Date selection with calendar)
+A production-ready sales forecasting system designed to support business decision-making.  
+This project demonstrates an end-to-end machine learning pipeline on Google Cloud Platform, from data ingestion and model training to real-time prediction via a web dashboard and API.
 
+---
+
+## Dashboard Preview
+
+### Dashboard UI (Date Selection with Calendar)
 ![Dashboard UI](img/dashboard_1.png)
 
-### Inference Result Example (Prediction shown)
-
+### Inference Result (Prediction Output)
 ![Inference Result](img/dashboard_2.png)
 
-> These images show the actual Streamlit dashboard: you can select the date with a calendar and see the prediction results in real time. Great for portfolio demonstration!
-
-# Production-ready ML pipeline with fully automated training & deployment
-
----
-
-## What is this project?
-
-Fully automated, production-grade ML pipeline on GCP:
-
-- Infrastructure as Code with Terraform
-- CI/CD with GitHub Actions
-- Vertex AI Custom Training for sales forecasting
-- Cloud Run for API deployment
-
-> Reproducible, scalable, and business-oriented ML pipeline for real-world use.
+> The Streamlit dashboard allows users to select a date and receive real-time sales predictions.  
+> The prediction logic is backed by a scalable Cloud Run inference API.
 
 ---
 
-## Architecture
+## What Problem Does This Project Solve?
 
-GCP (Google Cloud Platform) × Vertex AI × Cloud Run × BigQuery × Terraform × GitHub Actions
+Accurate sales forecasting is essential for budgeting, inventory planning, and strategic decision-making.  
+However, many machine learning projects rely on unrealistic evaluation methods that lead to overconfident predictions in production.
 
-![Architecture Diagram (PNG)](img/Architecture.drawio.png)
+This project focuses on:
+
+- Reliable time-series forecasting for business use
+- Realistic model evaluation without future data leakage
+- A deployment-ready architecture suitable for enterprise environments
 
 ---
 
-## Model Evaluation and Realistic Validation
+## System Architecture
 
-To ensure the reliability of the sales forecasting model, both random split and time-series-aware validation were performed:
+**GCP × Vertex AI × Cloud Run × BigQuery × Terraform × GitHub Actions**
 
-- **Random split (with future data leakage):**
-  - R² = 0.72, RMSE = 6.86
-  - Shows high accuracy, but may overestimate real-world performance due to data leakage.
-- **TimeSeriesSplit (no future data leakage, realistic scenario):**
-  - Average R² = 0.44, Average RMSE = 9.25
-  - Provides a more honest and practical estimate of model performance for real business use.
+![Architecture Diagram](img/Architecture.drawio.png)
 
-This project emphasizes realistic validation and honest reporting of model accuracy, reflecting best practices for production ML systems.
+**High-level flow:**
+
+1. Sales data is stored and queried in BigQuery  
+2. Model training runs on Vertex AI using custom training jobs  
+3. Trained models are versioned and managed centrally  
+4. Predictions are served via a Cloud Run inference API  
+5. The Streamlit dashboard consumes the API for real-time forecasting  
+6. Infrastructure and deployments are automated via Terraform and CI/CD
+
+---
+
+## Model Evaluation (Realistic Validation)
+
+To ensure reliable forecasting performance, two validation strategies were compared:
+
+### Random Split (with future data leakage)
+- R²: **0.72**
+- RMSE: **6.86**
+
+> Demonstrates high apparent accuracy, but is unsuitable for real-world forecasting.
+
+### TimeSeriesSplit (no future data leakage)
+- Average R²: **0.44**
+- Average RMSE: **9.25**
+
+> Provides a more honest estimate of how the model performs in production.
+
+This project intentionally prioritizes **realistic evaluation over optimistic metrics**, reflecting best practices for enterprise-grade ML systems.
 
 Below is an example of the sales trend used in this project:
 
-![Sales Trend Graph](img/graph.png)
+![Sales Trend](img/graph.png)
 
 ---
 
-## Features
+## Key Features & Technical Stack
 
-- All infrastructure managed by Terraform (IaC)
-- GitHub Actions triggers training, model registration, and deployment
-- Vertex AI custom training with hyperparameter management
-- Cloud Run API for real-time predictions
+### Key Features
+- End-to-end automated ML pipeline
+- Real-time sales prediction via Cloud Run API
+- Interactive dashboard for business users
+- Time-series–aware validation strategy
+- Fully reproducible infrastructure
+
+### Technical Stack
+- **Cloud Platform:** Google Cloud Platform (GCP)
+- **Data & Storage:** BigQuery, Cloud Storage
+- **Machine Learning:** Vertex AI (custom training)
+- **Serving Layer:** Cloud Run
+- **Web Interface:** Streamlit
+- **Infrastructure as Code:** Terraform
+- **CI/CD:** GitHub Actions
 
 ---
-
-## Architecture
-
----
-
-- **Operational Insights**
-  - Cloud Logging and basic monitoring for ETL and model operations.
-  - Scheduled queries or Cloud Scheduler automate the data pipeline.
 
 ## Infrastructure as Code (IaC)
 
-All Google Cloud resources (GCS, BigQuery, Cloud Functions, VertexAI, etc.) are provisioned and managed using Terraform. This ensures reproducibility, scalability, and easy collaboration for infrastructure management. The Terraform code is organized in the `terraform/` directory, following best practices for modularity and environment separation.
+All cloud resources are provisioned and managed using **Terraform**, enabling:
 
-**Key Points:**
+- Reproducible and auditable environments
+- Version-controlled infrastructure
+- Scalable and maintainable system design
 
-- Automated provisioning of all GCP resources
-- Version-controlled infrastructure for easy rollback and auditing
-- Modular structure for reusability and clarity
+Terraform configurations are organized in the `terraform/` directory, following modular best practices.
+
+---
 
 ## CI/CD Pipeline
 
-GitHub Actions is used to automate the build, test, and deployment process for application code and container images. This includes:
+GitHub Actions automates the full lifecycle:
 
-- Linting and testing on every pull request
-- Building and pushing Docker images to Artifact Registry
-- Deploying to Cloud Functions upon merge to main branch (if applicable)
-- (Optional) Infrastructure changes via Terraform plan/apply workflows
+- Linting and testing on pull requests  
+- Docker image build and push to Artifact Registry  
+- Model training and registration on Vertex AI  
+- Deployment of services and infrastructure
 
-The CI/CD configuration is located in the `.github/workflows/` directory.
+Workflow definitions are located in `.github/workflows/`.
 
-## Technical Stack
-
-- Storage & Database: Google Cloud Storage, BigQuery
-- ETL & Transformation: Cloud Functions, Dataform
-- Machine Learning: VertexAI
-- Web Interface: Streamlit
-- Infrastructure as Code: Terraform
-- CI/CD: GitHub Actions
+---
 
 ## Purpose
 
-This project demonstrates my ability to design and implement a robust, end-to-end data pipeline and ML solution using Google Cloud. It serves as a portfolio piece to showcase my skills for international freelance projects and overseas job opportunities in data engineering and machine learning. The design choices reflect real-world requirements and best practices expected in global teams.
+This project is designed as a portfolio piece to demonstrate my ability to build **production-grade machine learning systems** using Google Cloud.
 
-## Key Points
+It showcases skills relevant to:
 
-- Minimal ETL keeps the system simple but functional.
-- VertexAI is the core component, providing predictive insights via the web interface.
-- Sample sales data includes realistic patterns: weekly seasonality, monthly trends, product categories, and promotions.
-- Repository includes architecture diagrams, code, sample data, and screenshots/videos for a complete portfolio demonstration.
+- Enterprise data engineering  
+- Machine learning system design  
+- Cloud-native architecture  
+- International freelance and overseas engineering roles  
+
+All design decisions are aligned with real-world constraints and best practices commonly expected in global engineering teams.
+
+---
+
+## Key Takeaways
+
+- Emphasis on realistic ML evaluation over inflated metrics  
+- Clear separation between training and inference components  
+- Automation-first approach using IaC and CI/CD  
+- Business-oriented design rather than experiment-driven ML
