@@ -1,7 +1,10 @@
 # Enterprise Sales Forecasting Dashboard
 
-A production-ready sales forecasting system designed to support business decision-making.  
-This project demonstrates an end-to-end machine learning pipeline on Google Cloud Platform, from data ingestion and model training to real-time prediction via a web dashboard and API.
+Businesses rely on sales forecasts for budgeting, inventory planning, and strategic decision-making.  
+However, many forecasting systems fail in production due to unrealistic evaluation methods and a lack of deployment readiness.
+
+This project addresses those challenges by providing a **production-ready sales forecasting system**
+with realistic time-series validation and a fully automated ML pipeline on Google Cloud Platform.
 
 ---
 
@@ -14,20 +17,15 @@ This project demonstrates an end-to-end machine learning pipeline on Google Clou
 ![Inference Result](img/dashboard_2.png)
 
 > The Streamlit dashboard allows users to select a date and receive real-time sales predictions.  
-> The prediction logic is backed by a scalable Cloud Run inference API.
+> Predictions are served through a scalable Cloud Run inference API.
 
 ---
 
-## What Problem Does This Project Solve?
+## Business Value
 
-Accurate sales forecasting is essential for budgeting, inventory planning, and strategic decision-making.  
-However, many machine learning projects rely on unrealistic evaluation methods that lead to overconfident predictions in production.
-
-This project focuses on:
-
-- Reliable time-series forecasting for business use
-- Realistic model evaluation without future data leakage
-- A deployment-ready architecture suitable for enterprise environments
+- Enables more reliable revenue forecasting for planning and budgeting
+- Reduces the risk of overconfident predictions caused by future data leakage
+- Provides a scalable architecture that integrates easily into real business workflows
 
 ---
 
@@ -37,7 +35,7 @@ This project focuses on:
 
 ![Architecture Diagram](img/Architecture.drawio.png)
 
-**High-level flow:**
+### High-level Flow
 
 1. Sales data is stored and queried in BigQuery  
 2. Model training runs on Vertex AI using custom training jobs  
@@ -56,13 +54,13 @@ To ensure reliable forecasting performance, two validation strategies were compa
 - R²: **0.72**
 - RMSE: **6.86**
 
-> Demonstrates high apparent accuracy, but is unsuitable for real-world forecasting.
+> Shows high apparent accuracy, but is unsuitable for real-world forecasting.
 
 ### TimeSeriesSplit (no future data leakage)
 - Average R²: **0.44**
 - Average RMSE: **9.25**
 
-> Provides a more honest estimate of how the model performs in production.
+> Provides a more honest and production-relevant estimate of model performance.
 
 This project intentionally prioritizes **realistic evaluation over optimistic metrics**, reflecting best practices for enterprise-grade ML systems.
 
@@ -75,17 +73,17 @@ Below is an example of the sales trend used in this project:
 ## Key Features & Technical Stack
 
 ### Key Features
-- End-to-end automated ML pipeline
-- Real-time sales prediction via Cloud Run API
+- End-to-end automated ML pipeline from data ingestion to prediction
+- Real-time sales forecasting via Cloud Run API
 - Interactive dashboard for business users
 - Time-series–aware validation strategy
-- Fully reproducible infrastructure
+- Fully reproducible and auditable infrastructure
 
 ### Technical Stack
 - **Cloud Platform:** Google Cloud Platform (GCP)
 - **Data & Storage:** BigQuery, Cloud Storage
 - **Machine Learning:** Vertex AI (custom training)
-- **Serving Layer:** Cloud Run
+- **Serving:** Cloud Run
 - **Web Interface:** Streamlit
 - **Infrastructure as Code:** Terraform
 - **CI/CD:** GitHub Actions
@@ -96,7 +94,7 @@ Below is an example of the sales trend used in this project:
 
 All cloud resources are provisioned and managed using **Terraform**, enabling:
 
-- Reproducible and auditable environments
+- Reproducible environments
 - Version-controlled infrastructure
 - Scalable and maintainable system design
 
@@ -106,29 +104,30 @@ Terraform configurations are organized in the `terraform/` directory, following 
 
 ## CI/CD Pipeline
 
-GitHub Actions automates the full lifecycle:
+GitHub Actions automates the full lifecycle of the system:
 
 - Linting and testing on pull requests  
 - Docker image build and push to Artifact Registry  
 - Model training and registration on Vertex AI  
-- Deployment of services and infrastructure
+- Automated deployment of services and infrastructure
 
-Workflow definitions are located in `.github/workflows/`.
+Workflow definitions are located in the `.github/workflows/` directory.
 
 ---
 
 ## Purpose
 
-This project is designed as a portfolio piece to demonstrate my ability to build **production-grade machine learning systems** using Google Cloud.
+This project serves as a portfolio piece demonstrating my ability to design and implement
+**production-grade machine learning systems** using Google Cloud.
 
-It showcases skills relevant to:
+It highlights skills relevant to:
 
 - Enterprise data engineering  
 - Machine learning system design  
 - Cloud-native architecture  
 - International freelance and overseas engineering roles  
 
-All design decisions are aligned with real-world constraints and best practices commonly expected in global engineering teams.
+All design decisions reflect real-world constraints and best practices expected in global engineering teams.
 
 ---
 
