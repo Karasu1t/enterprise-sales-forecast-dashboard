@@ -2,11 +2,11 @@
 
 ### Dashboard UI Example (Date selection with calendar)
 
-![Dashboard UI](../img/dashboard_1.png)
+![Dashboard UI](img/dashboard_1.png)
 
 ### Inference Result Example (Prediction shown)
 
-![Inference Result](../img/dashboard_2.png)
+![Inference Result](img/dashboard_2.png)
 
 > These images show the actual Streamlit dashboard: you can select the date with a calendar and see the prediction results in real time. Great for portfolio demonstration!
 
