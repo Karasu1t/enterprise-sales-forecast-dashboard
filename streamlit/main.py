@@ -1,3 +1,5 @@
+import google.auth
+import google.auth.transport.requests
 import streamlit as st
 import requests
 import json
@@ -36,6 +38,15 @@ weather_flag = st.selectbox(
     "Weather Flag", [0, 1], format_func=lambda x: "Bad Weather" if x else "Normal"
 )
 
+
+def get_access_token():
+    credentials, _ = google.auth.default(
+        scopes=["https://www.googleapis.com/auth/cloud-platform"]
+    )
+    credentials.refresh(google.auth.transport.requests.Request())
+    return credentials.token
+
+
 if st.button("Predict"):
     # Check that at least one product flag is set
     if not (is_cup_ramen or is_pet_bottle_tea or is_chocolate):
@@ -45,7 +56,7 @@ if st.button("Predict"):
     else:
         # Vertex AI endpoint URL and token
         ENDPOINT_URL = "https://asia-northeast1-aiplatform.googleapis.com/v1/projects/134070188729/locations/asia-northeast1/endpoints/5074538632279228416:predict"
-        ACCESS_TOKEN = "XXXXXXXXXX"  # gcloud auth print-access-token
+        ACCESS_TOKEN = get_access_token()
 
         # Prepare input data as list (year, month, day, holiday_flag auto)
         instance = [
