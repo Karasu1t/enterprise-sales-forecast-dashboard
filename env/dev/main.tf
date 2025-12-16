@@ -35,7 +35,7 @@ module "artifactregistry" {
   project       = var.project
   location      = var.gcp_region
   repository_id = "sales-data-learning-model-repo"
-  dashboard_id  = "sales-data-learning-model-repo"
+  dashboard_id  = "sales-data-dashboard-repo"
 }
 
 # Dataform
