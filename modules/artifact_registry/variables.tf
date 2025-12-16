@@ -8,3 +8,7 @@ variable "location" {
 variable "repository_id" {
   type = string
 }
+
+variable "dashboard_id" {
+  type = string
+}
