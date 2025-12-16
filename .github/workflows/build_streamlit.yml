@@ -10,7 +10,7 @@ jobs:
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       GCP_REGION: ${{ secrets.GCP_REGION }}
       ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_DASHBOARD }}
-      IMAGE_NAME: streamlit-app
+      IMAGE_NAME: sales-forecast-dashboard
 
     defaults:
       run:
@@ -27,7 +27,7 @@ jobs:
 
       - name: Configure Docker for Artifact Registry
         run: |
-          gcloud auth configure-docker ${{ env.GCP_REGION }}-docker.pkg.dev --quiet
+          gcloud auth configure-docker asia-northeast1-docker.pkg.dev --quiet
 
       - name: Build Docker image
         run: |
